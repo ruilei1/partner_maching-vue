@@ -141,8 +141,13 @@ const afterRead: UploaderAfterRead = async (file) => {
             if (currentUserStr) {
                 const currentUser = JSON.parse(currentUserStr);
                 currentUser.avatarUrl = res.data.data;
-                userStore.setUser(JSON.stringify(currentUser));
-                localStorage.setItem('user', JSON.stringify(currentUser));
+                // 保留登录时间戳
+                const userData = {
+                    ...currentUser,
+                    loginTimestamp: currentUser.loginTimestamp || Date.now()
+                };
+                userStore.setUser(JSON.stringify(userData));
+                localStorage.setItem('user', JSON.stringify(userData));
                 // 使用现有的 /user/update 接口更新用户信息
                 const response = await myAxios.post('/user/update', {
                     id: currentUser.id,

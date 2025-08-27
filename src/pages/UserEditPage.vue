@@ -113,9 +113,12 @@ const onSubmit = async (values) => {
         if (res.data.code === 0) {
             showSuccessToast('修改成功');
 
-            // 更新本地存储的用户信息
-            const updatedUser = {...currentUser};
-            updatedUser[editUser.value.editKey] = editUser.value.currentValue;
+            // 更新本地存储的用户信息，保留登录时间戳
+            const updatedUser = {
+                ...currentUser,
+                [editUser.value.editKey]: editUser.value.currentValue,
+                loginTimestamp: currentUser.loginTimestamp || Date.now()
+            };
             userStore.setUser(JSON.stringify(updatedUser));
             localStorage.setItem('user', JSON.stringify(updatedUser));
             router.back();

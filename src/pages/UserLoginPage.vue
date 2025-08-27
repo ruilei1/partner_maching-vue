@@ -98,7 +98,12 @@ const onSubmit = async () => {
 
             // 更新 Pinia 状态
             userStore.login();
-            localStorage.setItem('user', JSON.stringify(res.data.data));
+            // 添加登录时间戳
+            const userData = {
+                ...res.data.data,
+                loginTimestamp: Date.now()
+            };
+            localStorage.setItem('user', JSON.stringify(userData));
 
             // 触发登录事件通知其他组件
             window.dispatchEvent(new Event('userLogin'));

@@ -233,7 +233,12 @@ const handleLogin = async () => {
         if (res.data.code === 0 && res.data.data !== null) {
             // 更新 Pinia 状态
             userStore.login();
-            localStorage.setItem('user', JSON.stringify(res.data.data));
+            // 添加登录时间戳
+            const userData = {
+                ...res.data.data,
+                loginTimestamp: Date.now()
+            };
+            localStorage.setItem('user', JSON.stringify(userData));
             // 保存当前用户信息
             window.dispatchEvent(new Event('userLogin'));
             await router.push('/');
