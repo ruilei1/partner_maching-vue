@@ -57,7 +57,7 @@
 
                         <van-button v-if="isTeamCreator(team)" type="primary" size="mini" @click="editTeam(team.id)">退出</van-button>
 
-                        <van-button v-if="isTeamCreator(team)" type="danger" size="mini" @click="editTeam(team.id)">解散</van-button>
+                        <van-button v-if="isTeamCreator(team)" type="danger" size="mini" @click="deleteTeam(team.id)">解散</van-button>
                     </div>
                 </div>
             </template>
@@ -106,6 +106,25 @@ const editTeam = (teamId: number) => {
         }
     })
 };
+//解散队伍
+const deleteTeam = async (teamId: number) => {
+    try {
+        const res = await myAxios.post("/team/delete", {
+            teamId: teamId
+        });
+        if (res.data.code === 0) {
+            showSuccessToast("解散成功");
+            // 触发自定义事件通知父组件刷新队伍列表
+            window.dispatchEvent(new Event('teamListUpdated'));
+        } else {
+            showErrorToast("解散队伍失败" + (res.data.description ? `，${res.data.description}` : ''));
+        }
+    } catch (error) {
+        showErrorToast("解散队伍失败：网络异常或内部错误");
+        console.error(error);
+    }
+};
+
 
 const props = withDefaults(defineProps<TeamCardListProps>(), {
     teamList: () => [] as TeamType[],

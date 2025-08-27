@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { ref,onMounted ,onActivated} from 'vue';
+import { ref,onMounted ,onActivated,onUnmounted} from 'vue';
 import {showSuccessToast, showErrorToast, showCustomToast, showInfoToast} from "../utils/toast.ts";
 import myAxios from "../plugins/myAxios.ts"; // 需要导入 axios 实例
 // 导入 Pinia 用户信息存储
@@ -62,10 +62,19 @@ const onSearch = (val) => {
 //页面加载时触发
 onMounted( ()=>{
     listTeam('');
+    
+    // 监听队伍列表更新事件
+    window.addEventListener('teamListUpdated', listTeam);
 })
+
 // 当组件被激活时触发（从缓存中恢复）
 onActivated(() => {
     listTeam(searchText.value)
+})
+
+// 组件卸载时移除事件监听
+onUnmounted(() => {
+    window.removeEventListener('teamListUpdated', listTeam);
 })
 </script>
 
