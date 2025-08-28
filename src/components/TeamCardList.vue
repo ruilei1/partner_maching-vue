@@ -41,7 +41,7 @@
                     <div class="creator-info">
                         队长：
                         <van-image
-                                :src="team.createUser?.avatarUrl || 'http://100.97.218.1:8009/leirui-oss/dkd-images/2025/07/266884724d226465b4b3d536ab.png'"
+                                :src="team.createUser?.avatarUrl || 'http://100.97.218.1:8009/leirui-oss/partner_maching/upload/68b0343eda52b8ac80916129.png'"
                                 round
                                 width="24"
                                 height="24"
@@ -51,11 +51,11 @@
                     </div>
 
                     <div class="button-group">
-                        <van-button size="mini" type="primary" @click="doJoinTeam(team.id)" v-if="!isTeamCreator(team)">加入</van-button>
+                        <van-button size="mini" type="primary" @click="doJoinTeam(team.id)" v-if="!isTeamCreator(team) && !team.hasJoin">加入</van-button>
 
                         <van-button v-if="isTeamCreator(team)" type="primary" size="mini" @click="editTeam(team.id)">修改</van-button>
-
-                        <van-button v-if="isTeamCreator(team)" type="primary" size="mini" @click="editTeam(team.id)">退出</van-button>
+                        <!-- todo 仅加入者可见 -->
+                        <van-button v-if="!isTeamCreator(team) && team.hasJoin"  type="primary" size="mini" @click="quitTeam(team.id)">退出</van-button>
 
                         <van-button v-if="isTeamCreator(team)" type="danger" size="mini" @click="deleteTeam(team.id)">解散</van-button>
                     </div>
@@ -73,6 +73,7 @@ import myAxios from "../plugins/myAxios.ts";
 import { useUserStore } from '../plugins/userStore.ts'
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
+import {showConfirmDialog} from "vant";
 const userStore = useUserStore()
 const router = useRouter();
 
@@ -106,24 +107,56 @@ const editTeam = (teamId: number) => {
         }
     })
 };
+
+
 //解散队伍
 const deleteTeam = async (teamId: number) => {
-    try {
-        const res = await myAxios.post("/team/delete", {
-            teamId: teamId
-        });
-        if (res.data.code === 0) {
-            showSuccessToast("解散成功");
-            // 触发自定义事件通知父组件刷新队伍列表
-            window.dispatchEvent(new Event('teamListUpdated'));
-        } else {
-            showErrorToast("解散队伍失败" + (res.data.description ? `，${res.data.description}` : ''));
-        }
-    } catch (error) {
-        showErrorToast("解散队伍失败：网络异常或内部错误");
-        console.error(error);
+    // 显示确认对话框
+    await showConfirmDialog({
+        title: '确认解散队伍',
+        message: '确定要解散此队伍吗？此操作不可撤销。',
+        confirmButtonText: '确认解散',
+        cancelButtonText: '取消',
+        confirmButtonColor: '#ee0a24',
+    });
+
+    // 用户确认后执行解散操作
+    const res = await myAxios.post("/team/delete", {
+        teamId: teamId
+    });
+    if (res.data.code === 0) {
+        showSuccessToast("解散成功");
+        // 触发自定义事件通知父组件刷新队伍列表
+        window.dispatchEvent(new Event('teamListUpdated'));
+    } else {
+        showErrorToast("解散队伍失败" + (res.data.description ? `，${res.data.description}` : ''));
     }
 };
+
+
+//退出队伍
+const quitTeam = async (teamId: number) => {
+    await showConfirmDialog({
+        title: '确认退出队伍',
+        message: '确定要退出此队伍吗？此操作不可撤销。',
+        confirmButtonText: '确认退出',
+        cancelButtonText: '取消',
+        confirmButtonColor: '#ee0a24',
+    });
+
+    // 用户确认后执行解散操作
+    const res = await myAxios.post("/team/quit", {
+        teamId: teamId
+    });
+    if (res.data.code === 0) {
+        showSuccessToast("退出成功");
+        // 触发自定义事件通知父组件刷新队伍列表
+        window.dispatchEvent(new Event('teamListUpdated'));
+    } else {
+        showErrorToast("退出队伍失败" + (res.data.description ? `，${res.data.description}` : ''));
+    }
+};
+
 
 
 const props = withDefaults(defineProps<TeamCardListProps>(), {
@@ -184,6 +217,7 @@ const doJoinTeam = async (id: number) => {
 }
 </script>
 <style scoped>
+
 #teamCardList {
     padding: 0 8px 12px;
 }

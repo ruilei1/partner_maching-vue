@@ -1,7 +1,6 @@
 <template>
     <div id="teamPage">
         <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch"/>
-        <van-button  type="primary" v-if="userStore.isLogin" @click="doJoinTeam" size="small">加入队伍</van-button>
         <team-card-list :teamList="teamList" />
         <van-empty v-if="teamList.length === 0" description="没有搜索结果" />
     </div>
@@ -20,16 +19,6 @@ const router = useRouter();
 const route = useRoute(); // 获取当前路由信息
 
 
-const doJoinTeam =()=>{
-    if(!userStore.isLogin){
-        showInfoToast("未登录,跳转到登录页",1000)
-        router.push("/user/login")
-    }else {
-        router.push({
-            path: '/team'
-        })
-    }
-}
 const teamList = ref([]);
 
 /**
@@ -64,7 +53,7 @@ onMounted( ()=>{
     listTeam('');
     
     // 监听队伍列表更新事件
-    window.addEventListener('teamListUpdated', listTeam);
+    window.addEventListener('teamListUpdated', ()=>listTeam);
 })
 
 // 当组件被激活时触发（从缓存中恢复）

@@ -1,7 +1,7 @@
 <template>
     <div id="teamPage">
         <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch"/>
-        <van-button  type="primary" v-if="userStore.isLogin" @click="doJoinTeam" size="small">创建队伍</van-button>
+        <van-button  type="primary" v-if="userStore.isLogin " @click="doJoinTeam" size="small">创建队伍</van-button>
         <team-card-list :teamList="teamList" />
         <van-empty v-if="teamList.length === 0" description="没有搜索结果" />
     </div>
@@ -64,7 +64,7 @@ onMounted( ()=>{
     listTeam('');
     
     // 监听队伍列表更新事件
-    window.addEventListener('teamListUpdated', listTeam);
+    window.addEventListener('teamListUpdated', ()=>listTeam);
 })
 
 // 当组件被激活时触发（从缓存中恢复）

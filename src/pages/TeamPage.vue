@@ -63,7 +63,7 @@ onMounted( ()=>{
     listTeam('');
     
     // 监听队伍列表更新事件
-    window.addEventListener('teamListUpdated', listTeam);
+    window.addEventListener('teamListUpdated', ()=>listTeam);
 })
 
 // 当组件被激活时触发（从缓存中恢复）
