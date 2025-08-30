@@ -26,8 +26,8 @@
                 <van-cell title="电话" is-link to="/user/edit" :value="user.phone || '未设置'" @click="toEdit('phone','电话',user.phone)" icon="phone-o" />
                 <van-cell title="邮箱" is-link to="/user/edit" :value="user.email || '未设置'" @click="toEdit('email','邮箱',user.email)" icon="envelop-o" />
                 <van-cell title="注册时间" :value="formatDate(user.createTime)" icon="clock-o" />
-                <van-cell title="我创建的队伍" is-link to="/team/create" />
-                <van-cell title="我加入的队伍" is-link to="/team/join"  />
+                <van-cell title="我创建的队伍" v-if="isLogin" is-link to="/team/create" />
+                <van-cell title="我加入的队伍" v-if="isLogin" is-link to="/team/join"  />
             </van-cell-group>
 
             <!-- 安全设置卡片 -->
@@ -244,6 +244,7 @@ const handleLogin = () => {
     min-height: 100vh;
     background-color: #f5f5f5;
     padding-bottom: 20px;
+    overflow-y: auto;
 }
 
 .user-header {
@@ -252,6 +253,7 @@ const handleLogin = () => {
     color: white;
     position: relative;
     margin-bottom: 20px;
+
 }
 
 .avatar-container {

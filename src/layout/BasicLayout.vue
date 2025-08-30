@@ -2,6 +2,7 @@
     <van-nav-bar
        :title="currentPageTitle || route.meta?.title || '默认标题'"
         left-arrow
+       v-if="userStore.isLogin"
         @click-left="onClickLeft"
         @click-right="onClickRight"
      >

@@ -61,15 +61,24 @@ const onSearch = (val) => {
 
 //页面加载时触发
 onMounted( ()=>{
+    if(!userStore.isLogin){
+        showInfoToast("未登录,跳转到登录页",1000)
+        router.push("/user/login")
+        return
+    }
     listTeam('');
-    
     // 监听队伍列表更新事件
     window.addEventListener('teamListUpdated', ()=>listTeam);
 })
 
 // 当组件被激活时触发（从缓存中恢复）
 onActivated(() => {
-    listTeam(searchText.value)
+    if(!userStore.isLogin){
+        showInfoToast("未登录,跳转到登录页",1000)
+        router.push("/user/login")
+    }else{
+        listTeam(searchText.value)
+    }
 })
 
 // 组件卸载时移除事件监听

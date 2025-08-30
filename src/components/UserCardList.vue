@@ -2,13 +2,14 @@
     <van-card
             class="user-card"
             :class="[cardType]"
-            :desc="user.profile"
+            :desc="`简介 ： ${user.profile}`"
             :title="`${user.username} (${user.planetCode})`"
             :thumb="user.avatarUrl || defaultAvatar "
             :tag="user.gender === 1 ? '女' : '男'"
             @error="handleImageError"
     >
         <template #tags>
+            标签：
             <van-tag
                     plain
                     type="primary"
@@ -84,6 +85,7 @@ const showPhoneNumber = () => {
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    padding: 10px; /* 减少内边距 */
 }
 
 .user-card::before {
@@ -125,7 +127,7 @@ const showPhoneNumber = () => {
 
 .user-tag {
     margin-right: 6px;
-    margin-top: 6px;
+    margin-top: 4px;
     border-radius: 12px;
     font-size: 12px;
     padding: 2px 8px;
@@ -143,4 +145,16 @@ const showPhoneNumber = () => {
     font-weight: 500;
     padding: 0 16px;
 }
+
+:deep(.van-card__title) {
+    font-size: 16px; /* 减小标题字体 */
+    line-height: 1.3; /* 调整行高 */
+}
+
+:deep(.van-card__desc) {
+    font-size: 13px; /* 减小描述字体 */
+    line-height: 1.4; /* 调整行高 */
+    margin-top: 4px; /* 减小上边距 */
+}
+
 </style>
