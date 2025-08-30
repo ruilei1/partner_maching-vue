@@ -59,10 +59,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
-import { useRouter } from 'vue-router';
-import { showSuccessToast, showErrorToast,showInfoToast } from "../utils/toast.ts";
-import { useUserStore } from "../plugins/userStore.ts";
+import {computed, onMounted, ref} from "vue";
+import {useRouter} from 'vue-router';
+import {showErrorToast, showInfoToast, showSuccessToast} from "../utils/toast.ts";
+import {useUserStore} from "../plugins/userStore.ts";
 import myAxios from "../plugins/myAxios.ts";
 import type {UploaderAfterRead, UploaderFileListItem} from 'vant';
 

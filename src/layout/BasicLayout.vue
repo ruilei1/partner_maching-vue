@@ -14,12 +14,6 @@
             />
         </template>
     </van-nav-bar>
-    <!-- 
-    这里可以直接使用<router-view>，不需要提前import，是因为Vue在全局注册了RouterView组件。
-    当你在main.js/main.ts中通过app.use(router)安装了vue-router插件后，
-    RouterView和RouterLink这两个组件就会自动全局可用，无需手动import。
-    你可以直接在任何模板中使用<router-view>来渲染当前路由对应的页面组件。
-    -->
     <div id="content">
         <!-- 使用 keep-alive 包装 router-view -->
         <router-view v-slot="{ Component, route }">

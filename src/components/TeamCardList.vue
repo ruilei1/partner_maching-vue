@@ -23,7 +23,7 @@
 
                             <div class="info-item">
                                 <van-icon name="user-o" />
-                                <span>最大人数：{{ team.maxNum }}</span>
+                                <span>队伍人数：{{team.hasJoinNum}} / {{ team.maxNum }}</span>
                             </div>
                             <div class="info-item">
                                 <van-icon name="clock-o" />
@@ -66,14 +66,15 @@
 </template>
 
 <script setup lang="ts">
-import type { TeamType } from "../models/team";
-import { teamStatusEnum } from "../constants/team";
-import { showSuccessToast, showErrorToast } from "../utils/toast.ts";
+import type {TeamType} from "../models/team";
+import {teamStatusEnum} from "../constants/team";
+import {showErrorToast, showSuccessToast} from "../utils/toast.ts";
 import myAxios from "../plugins/myAxios.ts";
-import { useUserStore } from '../plugins/userStore.ts'
-import { useRouter } from 'vue-router';
-import { computed } from 'vue';
+import {useUserStore} from '../plugins/userStore.ts'
+import {useRouter} from 'vue-router';
+import {computed} from 'vue';
 import {showConfirmDialog} from "vant";
+
 const userStore = useUserStore()
 const router = useRouter();
 

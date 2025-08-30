@@ -67,9 +67,10 @@
 <script setup>
 
 import {useRoute, useRouter} from "vue-router";
-import {onMounted, ref,computed} from "vue";
+import {computed, onMounted, ref} from "vue";
 import myAxios from "../plugins/myAxios.ts";
-import { showSuccessToast, showErrorToast } from "../utils/toast.ts";
+import {showErrorToast, showSuccessToast} from "../utils/toast.ts";
+
 const router = useRouter();
 const route = useRoute();
 

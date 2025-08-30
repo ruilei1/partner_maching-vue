@@ -11,13 +11,13 @@
 </template>
 
 <script setup>
-import { ref ,onMounted } from 'vue';
+import {onMounted, ref} from 'vue';
 
-import { useRoute } from 'vue-router';
+import {useRoute} from 'vue-router';
 import myAxios from "../plugins/myAxios.ts";
-import {showSuccessToast, showErrorToast} from "../utils/toast.ts";
-const route = useRoute();   // 调用 useRoute() 得到当前路由信息
+import {showErrorToast, showSuccessToast} from "../utils/toast.ts";
 import UserCardList from "../components/UserCardList.vue"; // 引入组件
+const route = useRoute();   // 调用 useRoute() 得到当前路由信息
 
 const UserList = ref([]);
 

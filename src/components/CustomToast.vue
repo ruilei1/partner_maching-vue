@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import {computed, onMounted, onUnmounted, ref} from 'vue';
 
 // 定义 props 类型
 interface Props {

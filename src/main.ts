@@ -1,11 +1,10 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
 import Vant from 'vant';
-import { createPinia } from 'pinia'
+import {createPinia} from 'pinia'
 // 添加这一行来引入 Vant 的样式文件
 // @ts-ignore
-import 'vant/lib/index.css';  // <- 这一行很重要
-
+import 'vant/lib/index.css'; // <- 这一行很重要
 // @ts-ignore
 import * as VueRouter from 'vue-router';
 import routes from './config/router';

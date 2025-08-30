@@ -4,8 +4,9 @@
             :class="[cardType]"
             :desc="user.profile"
             :title="`${user.username} (${user.planetCode})`"
-            :thumb="user.avatarUrl"
+            :thumb="user.avatarUrl || defaultAvatar "
             :tag="user.gender === 1 ? '女' : '男'"
+            @error="handleImageError"
     >
         <template #tags>
             <van-tag
@@ -23,16 +24,18 @@
                     size="mini"
                     :type="buttonType"
                     class="contact-button"
+                    @click="showPhoneNumber"
             >
                 {{ buttonText }}
             </van-button>
         </template>
     </van-card>
+
 </template>
 
 <script setup lang="ts">
-import { defineProps, withDefaults } from 'vue';
-
+import { ref, defineProps, withDefaults } from 'vue';
+import {showInfoToast, showSuccessToast} from "../utils/toast.ts";
 interface User {
     id: number;
     username: string;
@@ -41,6 +44,7 @@ interface User {
     gender: number;
     profile?: string;
     tags: string[];
+    phone?: string; // 添加手机号字段
 }
 
 const props = withDefaults(defineProps<{
@@ -53,6 +57,23 @@ const props = withDefaults(defineProps<{
     buttonType: 'primary',
     buttonText: '联系我'
 });
+
+// 默认头像URL
+const defaultAvatar = ref('http://100.97.218.1:8009/leirui-oss/partner_maching/upload/68b0343eda52b8ac80916129.png');
+
+// 处理图片加载错误
+const handleImageError = (e: Event) => {
+    const imgElement = e.target as HTMLImageElement;
+    imgElement.src = defaultAvatar.value;
+};
+// 显示手机号
+const showPhoneNumber = () => {
+    if (props.user.phone) {
+        showSuccessToast(`手机号: ${props.user.phone}`);
+    } else {
+        showInfoToast('该用户未填写手机号');
+    }
+};
 </script>
 
 <style scoped>

@@ -49,9 +49,9 @@
 </template>
 
 <script setup>
-import {ref, computed} from 'vue';
+import {computed, ref} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import {showSuccessToast, showErrorToast} from "../utils/toast.ts";
+import {showErrorToast, showSuccessToast} from "../utils/toast.ts";
 import myAxios from "../plugins/myAxios.ts";
 import {useUserStore} from "../plugins/userStore.js";
 

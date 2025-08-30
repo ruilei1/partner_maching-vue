@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import {defineStore} from 'pinia'
+import {ref} from 'vue'
 
 export const useUserStore = defineStore('user', () => {
     const LOGIN_EXPIRY_TIME = 7 * 24 * 60 * 60 * 1000; // 7天过期时间

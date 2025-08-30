@@ -1,21 +1,22 @@
 <template>
     <div id="teamPage">
         <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch"/>
-        <van-button  type="primary" v-if="userStore.isLogin" @click="doJoinTeam" size="small">创建队伍</van-button>
+        <van-button  class="add-button" type="primary" v-if="userStore.isLogin" @click="doJoinTeam" size="small">创建队伍</van-button>
         <team-card-list :teamList="teamList" />
         <van-empty v-if="teamList.length === 0" description="没有搜索结果" />
     </div>
 </template>
 
 <script setup>
-import { ref,onMounted ,onActivated,onUnmounted} from 'vue';
-import {showSuccessToast, showErrorToast, showCustomToast, showInfoToast} from "../utils/toast.ts";
+import {onActivated, onMounted, onUnmounted, ref} from 'vue';
+import {showErrorToast, showInfoToast} from "../utils/toast.ts";
 import myAxios from "../plugins/myAxios.ts"; // 需要导入 axios 实例
 // 导入 Pinia 用户信息存储
-import { useUserStore } from '../plugins/userStore.ts'
-const userStore = useUserStore()
-import { useRouter,useRoute } from 'vue-router';
+import {useUserStore} from '../plugins/userStore.ts'
+import {useRoute, useRouter} from 'vue-router';
 import TeamCardList from "../components/TeamCardList.vue";
+
+const userStore = useUserStore()
 const router = useRouter();
 const route = useRoute(); // 获取当前路由信息
 
@@ -80,5 +81,14 @@ onUnmounted(() => {
 <style scoped>
 #teamPage {
     padding: 0 8px;
+}
+.add-button{
+    position: fixed;
+    bottom: 60px;
+    width: 50px;
+    right: 12px;
+    height: 50px;
+    border-radius: 50px;
+    z-index: 1;
 }
 </style>

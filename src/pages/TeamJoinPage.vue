@@ -7,14 +7,15 @@
 </template>
 
 <script setup>
-import { ref,onMounted ,onActivated} from 'vue';
-import {showSuccessToast, showErrorToast, showCustomToast, showInfoToast} from "../utils/toast.ts";
+import {onActivated, onMounted, ref} from 'vue';
+import {showErrorToast} from "../utils/toast.ts";
 import myAxios from "../plugins/myAxios.ts"; // 需要导入 axios 实例
 // 导入 Pinia 用户信息存储
-import { useUserStore } from '../plugins/userStore.ts'
-const userStore = useUserStore()
-import { useRouter,useRoute } from 'vue-router';
+import {useUserStore} from '../plugins/userStore.ts'
+import {useRoute, useRouter} from 'vue-router';
 import TeamCardList from "../components/TeamCardList.vue";
+
+const userStore = useUserStore()
 const router = useRouter();
 const route = useRoute(); // 获取当前路由信息
 
