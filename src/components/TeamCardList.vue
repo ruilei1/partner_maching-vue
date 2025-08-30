@@ -51,7 +51,7 @@
                     </div>
 
                     <div class="button-group">
-                        <van-button size="mini" type="primary" @click="doJoinTeam(team.id)" v-if="!isTeamCreator(team) && !team.hasJoin">加入</van-button>
+                        <van-button size="mini" type="primary" @click="preJoinTeam(team)" v-if="!isTeamCreator(team) && !team.hasJoin">加入</van-button>
 
                         <van-button v-if="isTeamCreator(team)" type="primary" size="mini" @click="editTeam(team.id)">修改</van-button>
                         <!-- todo 仅加入者可见 -->
@@ -63,6 +63,11 @@
             </template>
         </van-card>
     </div>
+
+    <van-dialog v-model:show="showPasswordDialog" title="请输入密码" show-cancel-button @confirm="doJoinTeam" @cancel="doJoinCancel">
+        <van-field v-model="password" placeholder="请输入密码" />
+    </van-dialog>
+
 </template>
 
 <script setup lang="ts">
@@ -72,11 +77,17 @@ import {showErrorToast, showSuccessToast} from "../utils/toast.ts";
 import myAxios from "../plugins/myAxios.ts";
 import {useUserStore} from '../plugins/userStore.ts'
 import {useRouter} from 'vue-router';
-import {computed} from 'vue';
+import {computed, onMounted} from 'vue';
 import {showConfirmDialog} from "vant";
 
 const userStore = useUserStore()
 const router = useRouter();
+
+const showPasswordDialog = ref(false);
+const password = ref('');
+const joinTeamId = ref(0);
+const currentUser = ref();
+
 
 interface TeamCardListProps {
     teamList: TeamType[];
@@ -199,15 +210,38 @@ const getTagType = (status: number) => {
 };
 
 
+onMounted( async ()=>{
+    currentUser.value = await userStore.getUser();
+})
+
+const preJoinTeam =(team:TeamType)=>{
+    joinTeamId.value = team.id;
+    if(team.status === 0){
+        doJoinTeam()
+    }else{
+        showPasswordDialog.value = true;
+    }
+}
+
+const doJoinCancel = () =>{
+    joinTeamId.value = 0;
+    password.value = '';
+}
+
 
 // 队伍列表加入队伍
-const doJoinTeam = async (id: number) => {
+const doJoinTeam = async () => {
+    if(!joinTeamId.value){
+        return ;
+    }
     try {
         const res = await myAxios.post("/team/join", {
-            teamId: id
+            teamId: joinTeamId.value,
+            password : password.value
         });
         if (res.data.code === 0) {
             showSuccessToast("加入成功");
+            doJoinCancel();
         } else {
             showErrorToast("加入失败" + (res.data.description ? `，${res.data.description}` : ''));
         }
