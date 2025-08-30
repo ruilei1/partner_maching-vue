@@ -18,12 +18,11 @@ import {showErrorToast, showInfoToast} from "../utils/toast.ts";
 import myAxios from "../plugins/myAxios.ts"; // 需要导入 axios 实例
 // 导入 Pinia 用户信息存储
 import {useUserStore} from '../plugins/userStore.ts'
-import {useRoute, useRouter} from 'vue-router';
+import {useRouter} from 'vue-router';
 import TeamCardList from "../components/TeamCardList.vue";
 
 const userStore = useUserStore()
 const router = useRouter();
-const route = useRoute(); // 获取当前路由信息
 
 const doJoinTeam =()=>{
     if(!userStore.isLogin){
@@ -62,14 +61,14 @@ const active = ref('public')
 //搜索框内容
 const searchText = ref("")
 //搜索
-const onSearch = (val) => {
+const onSearch = (val : string) => {
     listTeam(val);
 };
 
 /**
  * 切换状态查询
  */
-const onTabChange = (name) =>{
+const onTabChange = (name : string) =>{
     //查询公开队伍
     if(name === 'public'){
         listTeam(searchText.value,0);
@@ -88,7 +87,7 @@ onMounted( ()=>{
     }
     listTeam('');
     // 监听队伍列表更新事件
-    window.addEventListener('teamListUpdated', ()=>listTeam);
+    window.addEventListener('teamListUpdated', handleTeamListUpdate);
 })
 
 // 当组件被激活时触发（从缓存中恢复）
@@ -101,9 +100,13 @@ onActivated(() => {
     }
 })
 
+// 创建一个包装函数用于事件监听
+const handleTeamListUpdate = () => {
+    listTeam(searchText.value);
+};
 // 组件卸载时移除事件监听
 onUnmounted(() => {
-    window.removeEventListener('teamListUpdated', listTeam);
+    window.removeEventListener('teamListUpdated', handleTeamListUpdate);
 })
 </script>
 

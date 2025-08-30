@@ -77,7 +77,7 @@ import {showErrorToast, showSuccessToast} from "../utils/toast.ts";
 import myAxios from "../plugins/myAxios.ts";
 import {useUserStore} from '../plugins/userStore.ts'
 import {useRouter} from 'vue-router';
-import {computed, onMounted} from 'vue';
+import {ref,computed, onMounted} from 'vue';
 import {showConfirmDialog} from "vant";
 
 const userStore = useUserStore()

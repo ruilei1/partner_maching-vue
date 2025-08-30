@@ -149,7 +149,7 @@ const afterRead: UploaderAfterRead = async (file) => {
                 userStore.setUser(JSON.stringify(userData));
                 localStorage.setItem('user', JSON.stringify(userData));
                 // 使用现有的 /user/update 接口更新用户信息
-                const response = await myAxios.post('/user/update', {
+                await myAxios.post('/user/update', {
                     id: currentUser.id,
                     avatarUrl: currentUser.avatarUrl
                     // 只传递需要更新的字段和id
