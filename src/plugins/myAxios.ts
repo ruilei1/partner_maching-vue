@@ -1,8 +1,11 @@
 import axios from "axios";
 
+// 获取环境变量中的 API 地址，如果未定义则使用默认值
+const baseURL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
+
 //统一管理 API 地址
 const myaxios = axios.create({
-    baseURL: 'http://localhost:8080/api',
+    baseURL: baseURL,
     withCredentials: true, // 默认携带 Cookie
 });
 

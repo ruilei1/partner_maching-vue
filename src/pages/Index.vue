@@ -63,8 +63,8 @@ onMounted(async () => {
         // 移除 .then() 和 .catch()，直接使用 await 处理响应
         const response = await myAxios.get('/user/recommend', {
             params: {
-                pageSize : 5,
-                pageNum : pageNum.value
+                pageSize: 5,
+                pageNum: pageNum.value
             },
             withCredentials: true,
         });
@@ -145,9 +145,9 @@ const domatch = async () => {
 
 
 //页面被激活时执行
-onActivated( ()=>{
-    if(!userStore.isLogin){
-        showInfoToast("未登录,跳转到登录页",1000)
+onActivated(() => {
+    if (!userStore.isLogin) {
+        showInfoToast("未登录,跳转到登录页", 1000)
         router.push("/user/login")
     }
 })
@@ -194,7 +194,6 @@ const doPageSearch = async () => {
 }
 
 
-
 </script>
 
 
@@ -205,6 +204,7 @@ const doPageSearch = async () => {
     align-items: center;
     padding: 20px;
 }
+
 .user-list-container {
     padding-bottom: 50px; /* 为分页组件留出空间 */
 }
@@ -218,6 +218,7 @@ const doPageSearch = async () => {
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     z-index: 100;
 }
+
 /* 移动端适配 */
 @media screen and (max-width: 768px) {
     .user-list-container {
